@@ -10,29 +10,34 @@ const Items = styled.div`
   padding-top: 1rem;
 `
 
+// ref https://engineering.linecorp.com/ja/blog/typescript-enum-tree-shaking/
+const NavigationType = {
+    prev: 'prev',
+    next: 'next'
+} as const;
+type NavigationType = typeof NavigationType[keyof typeof NavigationType];
+
 function Navigation() {
     const [currentDate, setCurrentDate] = useState(new Date())
 
-    const prevMonth = () => {
+    const navigateMonth = (type: NavigationType) => {
         let d = new Date()
-        if (currentDate.getMonth() === 0) {
-            d.setFullYear(currentDate.getFullYear() - 1)
-            d.setMonth(11)
+        if (type === NavigationType.prev) {
+            if (currentDate.getMonth() === 0) {
+                d.setFullYear(currentDate.getFullYear() - 1)
+                d.setMonth(11)
+            } else {
+                d.setFullYear(currentDate.getFullYear())
+                d.setMonth(currentDate.getMonth() - 1)
+            }
         } else {
-            d.setFullYear(currentDate.getFullYear())
-            d.setMonth(currentDate.getMonth() - 1)
-        }
-        return d
-    }
-
-    const nextMonth = () => {
-        let d = new Date()
-        if (currentDate.getMonth() === 11) {
-            d.setFullYear(currentDate.getFullYear() + 1)
-            d.setMonth(0)
-        } else {
-            d.setFullYear(currentDate.getFullYear())
-            d.setMonth(currentDate.getMonth() + 1)
+            if (currentDate.getMonth() === 11) {
+                d.setFullYear(currentDate.getFullYear() + 1)
+                d.setMonth(0)
+            } else {
+                d.setFullYear(currentDate.getFullYear())
+                d.setMonth(currentDate.getMonth() + 1)
+            }
         }
         return d
     }
@@ -41,8 +46,8 @@ function Navigation() {
         <Items>
             <CalendarToday />
             <p>カレンダー</p>
-            <IconButton onClick={() => setCurrentDate(prevMonth())}>＜</IconButton>
-            <IconButton onClick={() => setCurrentDate(nextMonth())}>＞</IconButton>
+            <IconButton onClick={() => setCurrentDate(navigateMonth(NavigationType.prev))}>＜</IconButton>
+            <IconButton onClick={() => setCurrentDate(navigateMonth(NavigationType.next))}>＞</IconButton>
             <Button>{currentDate.getFullYear()} 年 {currentDate.getMonth() + 1} 月</Button>
         </Items>
     )
