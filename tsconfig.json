@@ -2,6 +2,7 @@
   "compilerOptions": {
     "target": "es5",
     "lib": [
+      "es6",
       "dom",
       "dom.iterable",
       "esnext"
@@ -9,8 +10,11 @@
     "allowJs": true,
     "skipLibCheck": true,
     "strict": false,
+    "strictNullChecks": true,
     "forceConsistentCasingInFileNames": true,
     "noEmit": true,
+    "noImplicitAny": true,
+    "noImplicitThis": true,
     "esModuleInterop": true,
     "module": "esnext",
     "moduleResolution": "node",
