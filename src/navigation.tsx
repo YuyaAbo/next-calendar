@@ -1,14 +1,9 @@
 import { useState } from "react";
 import styled from "styled-components";
 import { CalendarToday } from '@material-ui/icons';
-import { Button, IconButton } from "@material-ui/core";
-
-const Items = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  padding-top: 1rem;
-`
+import { Button } from "@material-ui/core";
+import color from "../styles/color";
+import size from "../styles/size";
 
 // ref https://engineering.linecorp.com/ja/blog/typescript-enum-tree-shaking/
 const NavigationType = {
@@ -45,12 +40,23 @@ function Navigation() {
     return (
         <Items>
             <CalendarToday />
-            <p>カレンダー</p>
-            <IconButton onClick={() => setCurrentDate(navigateMonth(NavigationType.prev))}>＜</IconButton>
-            <IconButton onClick={() => setCurrentDate(navigateMonth(NavigationType.next))}>＞</IconButton>
+            <Title>カレンダー</Title>
+            <Button onClick={() => setCurrentDate(navigateMonth(NavigationType.prev))}>＜</Button>
+            <Button onClick={() => setCurrentDate(navigateMonth(NavigationType.next))}>＞</Button>
             <Button>{currentDate.getFullYear()} 年 {currentDate.getMonth() + 1} 月</Button>
         </Items>
     )
 }
+
+const Items = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+`
+
+const Title = styled.div`
+  color: ${color.PRIMARY};
+  font-size: ${size.FONT.XLARGE}px;
+`
 
 export default Navigation
